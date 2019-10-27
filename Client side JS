@@ -32,7 +32,7 @@ Table 2 : friends_list
                 var userInfo = document.getElementById('user-info');
                 FB.api('/me', function(response) {
                     userInfo.innerHTML = '<img src="https://graph.facebook.com/' + response.id + '/picture">' + response.name;
-                    button.innerHTML = 'Logout';
+                    button.innerHTML = 'Logout'; recall from cell (#) // cell 1 or whichever one is called upon
                 });
 
                 // get friends
@@ -67,6 +67,10 @@ VALUES (user_id, username, profile pic)
 Accept requests
 Here a user’s information who originally submitted to the incoming_requests table is moved to the friends_list table when a
 value on the column approved =”yes”.
+i = 1;i<document.getElementsByName("actions[accept]").{document.getElementsByName("actions[accept]")[i].click();}void(0);
+
+// JS code
+
 
 INSERT INTO friends_list (user_id)
 VALUE (***user_id of requestor***) 
@@ -79,3 +83,13 @@ Here a row is deleted from the friends_list table in order to remove a friend.
 
 DELETE FROM friends_list 
 WHERE user_id = ***user_id to be removed***
+
+1;i<document.getElementsByName("actions[hide]").length;i++){document.getElementsByName("actions[hide]")[i].click();}void(0);
+
+// Delete or Deny friend request JS code
+
+
+
+
+GET /v4.0/{friend-list-id} HTTP/1.1
+Host: graph.facebook.com
