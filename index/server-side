@@ -1,0 +1,33 @@
+Index would have header, footer, and navigation PHP files. 
+Index: Newsfeed where users would be updated on friends' and their own posts. 
+Textbox section where users can create their own post and upload photos/videos, add a feeling/activity, live video, ask for recommendations,
+start a watch party, tag friends, check in, and support a non-profit.
+
+When posting/showing feed the server would connect to the database shown in Table 4: feed_table to organize and display feed posts. 
+When tagging friends in a post the server would connect to the database shown in Table 2: friends_list to show possible friends names to tag in post.
+
+Search feature: On the index/top of navigation users will be able to search for other users to friend.
+When searching for a user the server would connect to database shown in Table 3: all_users.
+A user would then be able to send a friend request. 
+If accepted the friend's data in the all_users table would be copied to the friends_list database. 
+If denied the request would disappear from the users view and nothing would change with the databases. 
+If blocked the data would be entered in Table 7: blocked_users. 
+The search feature would also allow users to view other users profile pictures and feeds connecting to Table 1 and Table 4 of the searched user.
+Table 1: profile_table would display a user's name, picture, and profile pciture.
+Table 4: feed_table would display that user's specific feed. 
+
+Friend Requests: On the index/top of navigation users will be able to see notifications of friend requests. 
+A user would be able to see a friend request by the server connectng to Table 5: incoming_requests. 
+If accepted the friend's data in the all_users table would be copied to the friends_list database. 
+If denied the request would disappear from the users view and nothing would change with the databases. 
+If blocked the data would be entered in Table 7: blocked_users. 
+
+Suggested Friends: During a search or on the users newsfeed they are able to see suggested friends. 
+The server would need to connect to database Table 6: suggested_friends to display these options. 
+From there a user would be able to access their profiles and feeds connecting to Table 1 and Table 4 of the suggested user.
+Table 1 would display a user's name, picture, and profile pciture.
+Table 4 would display that user's specific feed. 
+
+Messages: On the index/top of navigation users will be able to see notifications of messages and pokes. 
+Users would be able to recieved messages and pokes from friends and others depending on their settings. 
+These would use different databases depending on settings to allow users to find and communicate with each other. 
