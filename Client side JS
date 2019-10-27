@@ -1,1 +1,10 @@
+// Sending data to our server
 
+Add friend (request or self initiated)
+
+var xhr = new XMLHttpRequest();
+xhr.open("POST", yourUrl, true);
+xhr.setRequestHeader('Content-Type', '');
+xhr.send(JSON.stringify({
+    value: value
+}));
