@@ -5,6 +5,77 @@ Add friend (request or self initiated)
 var xhr = new XMLHttpRequest();
 xhr.open("POST", yourUrl, true);
 xhr.setRequestHeader('Content-Type', '');
-xhr.send(JSON.stringify({
+xhr.send(""({
     value: value
 }));
+
+This from database Cari included seeing friend list but this is through JS
+
+Table 2 : friends_list
+
+‘friends’ VARCHAR (50)  
+‘blocked_users’ VARCHAR (50)
+‘friend_request’ VARCHAR (50)
+‘friend_of_friend’ VARCHAR (50)
+
+
+
+|user_id       |   friend_id    | blocked_users .    | friend_request        | friend_of_friend    | poke            | friend_request |
+| -------------| -------------- |:------------------:| ---------------------:| -------------------:|----------------:| ----------:    |
+|     cell1    |  cell2         |      cell3         |           cell4       |        cell5        |    cell6        |   cell7        |    
+|  column1     |  column2       |    column3         |         column4       |        column5      |   column6       | column 7 .     |     
+
+      function updateButton(response) {
+            var button = document.getElementById('fb-auth');
+
+            if (response.authResponse) { // in case if we are logged in
+                var userInfo = document.getElementById('user-info');
+                FB.api('/me', function(response) {
+                    userInfo.innerHTML = '<img src="https://graph.facebook.com/' + response.id + '/picture">' + response.name;
+                    button.innerHTML = 'Logout';
+                });
+
+                // get friends
+                FB.api('/me/invitable_friends', function(response) {
+                    var result_holder = document.getElementById('result_friends');
+                    var friend_data = response.data.sort(sortMethod);
+
+                    var results = '';
+                    for (var i = 0; i < friend_data.length; i++) {
+                        results += '<div><img src="https://graph.facebook.com/' + friend_data[i].id + '/picture">' + friend_data[i].name + '</div>';
+                    }
+
+                   
+
+                button.onclick = function() {
+                    FB.logout(function(response) {
+                        window.location.reload();
+                    });
+                };
+                
+
+// From cari database transfered to JS
+
+                Send/Accept Friend request
+Here we want to allow for a user to be able to insert their user Id, username, and profile picture into the 
+incoming_requests table for the receiving user. The SQL may read something the effect of: 
+
+INSERT INTO incoming_requests (user_id, username, profile pic)
+VALUES (user_id, username, profile pic)
+
+
+Accept requests
+Here a user’s information who originally submitted to the incoming_requests table is moved to the friends_list table when a
+value on the column approved =”yes”.
+
+INSERT INTO friends_list (user_id)
+VALUE (***user_id of requestor***) 
+FROM  incoming_requests (user_id)
+WHERE (approved) =”yes”
+
+
+Delete friends
+Here a row is deleted from the friends_list table in order to remove a friend. 
+
+DELETE FROM friends_list 
+WHERE user_id = ***user_id to be removed***
