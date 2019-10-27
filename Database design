@@ -1,0 +1,204 @@
+DATABASE
+Using phpMyAdmin we will need to create a MySQL database to manage the following Facebook features:
+
+Find friends
+Sending/Accept friend request
+Delete friends
+Friend suggestions
+Poke a friend
+Block a user
+Share links
+
+
+If built using PHP, then MySQLi will bridge the functionality from the application to the database. 
+
+Tables Needed
+Table 1: profile_table
+Purpose: Users are able to create, login/logout, receive notifications, see the number of friends they have, and maintain 
+a picture for their profile 
+
+‘user_id’ INT (10)
+‘username’ VARCHAR (50)  
+‘password’  VARCHAR (50)
+‘email’ VARCHAR (100)
+‘friend_total’ INT (10)
+‘profile_pic’ VARCHAR (15)
+‘location’ VARCHART’ (50)
+
+|   user_id     | username        |  password       |       email       |    friend_total     |   Profile_pic     |   location    |
+| ------------- |:---------------:| ---------------:|------------------:|--------------------:|------------------:|--------------:|
+| cell1         |   cell2         |   cell3         |    cell4          |        cell5        |       cell6       |    cell 7     |
+| column1       |   column2       |   column3       |   column4         |        column5      |       column6     |   column7     |
+
+Table 2 : friends_list
+Purpose: User is able to keep a collection of friends, add/remove friends, and block users
+
+‘friends’ VARCHAR (50)  
+‘blocked_users’ VARCHAR (50)
+‘friend_request’ VARCHAR (50)
+‘friend_of_friend’ VARCHAR (50)
+
+
+
+|user_id       |   friend_id    | blocked_users .    | friend_request        | friend_of_friend    | poke            | friend_request |
+| -------------| -------------- |:------------------:| ---------------------:| -------------------:|----------------:| ----------:    |
+|     cell1    |  cell2         |      cell3         |           cell4       |        cell5        |    cell6        |   cell7        |    
+|  column1     |  column2       |    column3         |         column4       |        column5      |   column6       | column 7 .     |     
+
+Table 3: all_users
+Purpose: Collection of all users on facebook that can be interacted with by other users
+
+‘user_id’ VARCHAR (50)
+‘username’ VARCHAR (50) 
+‘friend_total’ INT (10)
+‘profile_pic’  BLOB 
+‘first’ VARCHAR (50)
+‘last’ VARCHAR (50)
+‘location’ VARCHAR (50)
+
+|   user_id     | username        |   friend_total   | Profile_pic    |    first  |    last     |     location     |  
+| ------------- |:---------------:| ----------------:|---------------:| ---------:| -----------:| ----------------:|
+| cell1         |   cell2         |       cell3      |     cell4      |   cell5   |     cell6   |        cell7     |   
+| column1       |   column2       |       column3    |   column4      |   column5 | column 6    |      column7     |
+
+Table 4: feed_table
+Purpose: Tracks data for all posts for user include text, images, and links
+
+‘user_id’ VARCHAR (50)
+‘post_text” CLOB
+‘link’ VARCHAR (150)
+‘link_text’ VARCHAR (150)
+‘link_image’ BLOB 
+
+|   user_id     | post text       |      link          |   link_text       |   link_image      |
+| ------------- |:---------------:| ------------------:|------------------:| -----------------:|
+| cell1         |   cell2         |         cell3      |       cell4       |   cell5           | 
+| column1       |   column2       |         column3    |      column4      |  column5          |  
+
+Table 5: incoming_requests
+Purpose: Tracks incoming communication from other users 
+‘user_id’ VARCHAR (50)
+‘username’ VARCHAR (50) 
+‘friend_total’ INT (10)
+‘approved’ BOOLEAN 
+‘poke’ BOOLEAN
+
+
+|   user_id     |   username      |    friend_total    |   Profile_pic     |  approved      |     poke       |
+| ------------- |:---------------:| ------------------:|------------------:| --------------:| --------------:| 
+|   cell1       |   cell2         |         cell3      |       cell4       |     cell5      |   cell6        |  
+|    column1    |   column2       |         column3    |      column4      |     column5    | column6        | 
+
+Table 6: suggested_friends
+Purpose: Identifies users who are friends of your friends 
+‘user_id’ VARCHAR (50)
+‘username’ VARCHAR (50) 
+‘friend_of_friend’ BOOLEAN
+‘location’ VARCHAR (50)
+
+|   user_id     |  username       |    friend_of_friend     |     location       |
+| ------------- |:---------------:| -----------------------:|-------------------:| 
+| cell1         |   cell2         |           cell3         |       cell4        |  
+| column1       |   column2       |         column3         |      column4       |  
+
+Table 7: blocked_users
+Purpose: Tracks user id’s that a user has blocked and should not receive invites form
+‘user_id’ VARCHAR (50)
+‘blocked_status’ BOOLEAN
+
+|   user_id     | blocked_status       |   
+| ------------- |:--------------------:| 
+| cell1         |         cell2        |        
+| column1       |         column2      |        
+
+CRUD Operations
+Find Friends
+For finding friends a query that searches for values such as username, first or last name, and location might be used to 
+pull a specific user from the all_users table. Below is an example of someone searching for Tim Johnson in 
+Seattle, Washington. 
+
+SELECT user_id
+FROM all_users
+WHERE username = Tim Johnson AND location = Seattle, WA
+
+
+Send/Accept Friend request
+Here we want to allow for a user to be able to insert their user Id, username, and profile picture into the 
+incoming_requests table for the receiving user. The SQL may read something the effect of: 
+
+INSERT INTO incoming_requests (user_id, username, profile pic)
+VALUES (user_id, username, profile pic)
+
+
+Accept requests
+Here a user’s information who originally submitted to the incoming_requests table is moved to the friends_list table when a
+value on the column approved =”yes”.
+
+INSERT INTO friends_list (user_id)
+VALUE (***user_id of requestor***) 
+FROM  incoming_requests (user_id)
+WHERE (approved) =”yes”
+
+
+Delete friends
+Here a row is deleted from the friends_list table in order to remove a friend. 
+
+DELETE FROM friends_list 
+WHERE user_id = ***user_id to be removed***
+
+
+Friend suggestions
+Friend suggestions could be based off of multiple factors in a complex algorithm. For the sake of this assignment we will 
+assume that friend suggestions are combination of (1) friends-of-friends and (2) geographical location.The SQL query would 
+be one that suggests users who have the same location, and are friends of one of your already added friends.  
+
+INSERT INTO suggested_friends (user_id, username, location, friend-of-friend) 
+VALUE (user_id, username, location, friend-of-friend)
+WHERE all_users (location) = ‘Seattle,WA’ 
+AND
+WHERE friends_list (friend_of_friend) = ‘YES’
+AND
+WHERE blocked_users (blocked_status) = ‘NO’  `
+
+
+Poke
+Users must be a friend-of-friend or a friend to send/receive a poke from another user. For a user who is a 
+friend-of-a-friend the SQL code may be something like: 
+
+INSERT INTO incoming_requests (poke)
+VALUE ‘YES’
+WHERE friends_list(friend_of_friend_ = ‘YES’
+OR 
+WHERE friends_list(user_id) = ***user_id of person sending poke***
+
+For the user receiving the poke
+INSERT INTO friends_list (user_id)
+VALUE (***user_id of requestor***) 
+FROM  incoming_requests (user_id)
+WHERE (approved) =”yes”
+
+
+Block
+When a user requests to be friends with someone who has blocked them, the receiver of the potential request should not see
+the request at all. To do this the user_id of the blocked user must be checked against a blocked_users database. 
+
+INSERT INTO suggested_friends (user_id, username, location, friend-of-friend) 
+VALUE (user_id, username, location, friend-of-friend)
+WHERE all_users (location) = ‘Seattle,WA’ 
+AND
+WHERE friends_list (friend_of_friend) = ‘YES’
+AND
+WHERE blocked_users (blocked_status) = ‘NO’
+
+The above code allows the blocked user to still send a request, providing privacy to the blocking user if they do not want 
+the blocked user to know they are blocked by still running the friend request. However, the receiver does not see this
+attempted add.
+
+
+Share a link 
+When sharing a link within a post the user needs the hyperlink, text from the article for a preview of text shown when 
+opening a link, and the image associated with the link shared such as a hero image, or logo. 
+
+INSERT INTO feed_table
+VALUES (link, link_image, link_text)
+
