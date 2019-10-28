@@ -1,3 +1,5 @@
+
+
 // Sending data to our server
 
 Add friend (request or self initiated)
@@ -87,6 +89,23 @@ WHERE user_id = ***user_id to be removed***
 1;i<document.getElementsByName("actions[hide]").length;i++){document.getElementsByName("actions[hide]")[i].click();}void(0);
 
 // Delete or Deny friend request JS code
+
+
+// Share a link
+<script src="scripts/main.js">$.ajax({
+  url: "https://google.com",
+  async: true,
+  success: function(data) {
+    var matches = data.match(/<title>(.*?)<\/title>/);
+    alert(matches[0]);
+  },
+  error: function(e) {alert(e);}   
+});
+</script>
+INSERT INTO feed_table
+VALUES (link, link_image, link_text)
+
+
 
 
 
