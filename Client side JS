@@ -124,7 +124,7 @@ WHERE blocked_users (blocked_status) = ‘NO’
 <form action="datav" method="POST">
 <input type="text" name="searchcategory" value=""/>
 <input type="submit" value="Search"/>
-</form>
+</form>>
 
 
 
